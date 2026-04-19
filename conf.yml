@@ -1,0 +1,19 @@
+info:
+  name: 'HyperVeil'
+  identifier: 'hyperveil'
+  description: 'A cyber-themed dark panel skin for Pterodactyl with purple accents, announcement banners and custom branding.'
+  version: '1.0.0'
+  target: '1.12.x'
+  author: 'Theodore'
+  icon: 'assets/icon.png'
+
+admin:
+  css: 'admin/admin.css'
+  wrapper: 'admin/wrapper.blade.php'
+
+dashboard:
+  css: 'dashboard/dashboard.css'
+  wrapper: 'dashboard/wrapper.blade.php'
+
+data:
+  public: 'assets'
