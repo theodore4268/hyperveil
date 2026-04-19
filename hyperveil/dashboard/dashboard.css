@@ -1,0 +1,474 @@
+/* =========================================
+   HyperVeil Theme — Dashboard
+   Cyber purple dark skin for Pterodactyl
+   ========================================= */
+
+/* --- Colour tokens --- */
+:root {
+  --hv-bg-deep:      #0a0b0f;
+  --hv-bg-base:      #0f1117;
+  --hv-bg-surface:   #161920;
+  --hv-bg-elevated:  #1c1f2a;
+  --hv-bg-hover:     #232736;
+
+  --hv-accent:       #7c5cfc;
+  --hv-accent-dim:   #5a3fd4;
+  --hv-accent-glow:  rgba(124, 92, 252, 0.18);
+  --hv-accent-soft:  rgba(124, 92, 252, 0.10);
+
+  --hv-purple-light: #a78bfa;
+  --hv-cyan:         #67e8f9;
+  --hv-cyan-dim:     rgba(103, 232, 249, 0.15);
+
+  --hv-text-primary:   #e8eaf0;
+  --hv-text-secondary: #8b8fa8;
+  --hv-text-muted:     #4a4e63;
+
+  --hv-border:       rgba(124, 92, 252, 0.15);
+  --hv-border-soft:  rgba(255, 255, 255, 0.06);
+
+  --hv-green:  #34d399;
+  --hv-yellow: #fbbf24;
+  --hv-red:    #f87171;
+
+  --hv-radius:    8px;
+  --hv-radius-lg: 12px;
+  --hv-font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+}
+
+/* --- Global base --- */
+*, *::before, *::after { box-sizing: border-box; }
+
+body,
+#app {
+  background: var(--hv-bg-deep) !important;
+  color: var(--hv-text-primary) !important;
+  font-family: 'Inter', 'Segoe UI', sans-serif !important;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* =========================================
+   SIDEBAR
+   ========================================= */
+[class*="NavigationBar"],
+[class*="navigation_bar"],
+nav[class*="sidebar"],
+div[class*="sidebar"] {
+  background: var(--hv-bg-base) !important;
+  border-right: 1px solid var(--hv-border) !important;
+}
+
+/* Logo / panel name */
+[class*="NavigationBar"] [class*="header"],
+[class*="sidebar"] [class*="header"] {
+  background: var(--hv-bg-base) !important;
+  border-bottom: 1px solid var(--hv-border) !important;
+  padding: 1.25rem 1rem !important;
+}
+
+[class*="NavigationBar"] [class*="header"] a,
+[class*="sidebar"] [class*="header"] p {
+  color: var(--hv-text-primary) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important;
+}
+
+/* Nav links */
+[class*="NavigationBar"] a,
+[class*="sidebar"] a {
+  color: var(--hv-text-secondary) !important;
+  border-radius: var(--hv-radius) !important;
+  margin: 2px 8px !important;
+  padding: 0.5rem 0.75rem !important;
+  transition: all 0.15s ease !important;
+  text-decoration: none !important;
+}
+
+[class*="NavigationBar"] a:hover,
+[class*="sidebar"] a:hover {
+  background: var(--hv-bg-hover) !important;
+  color: var(--hv-text-primary) !important;
+}
+
+/* Active nav item — purple accent */
+[class*="NavigationBar"] a[class*="active"],
+[class*="NavigationBar"] a[aria-current],
+[class*="sidebar"] a[class*="active"],
+[class*="sidebar"] a[aria-current] {
+  background: var(--hv-accent-soft) !important;
+  color: var(--hv-purple-light) !important;
+  border-left: 3px solid var(--hv-accent) !important;
+}
+
+/* Section labels (GENERAL, MANAGEMENT etc) */
+[class*="NavigationBar"] p[class*="label"],
+[class*="sidebar"] p[class*="label"],
+[class*="NavigationBar"] span[class*="label"] {
+  color: var(--hv-text-muted) !important;
+  font-size: 0.65rem !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  font-weight: 600 !important;
+  padding: 1rem 1rem 0.25rem !important;
+}
+
+/* =========================================
+   TOP NAV / SERVER SELECTOR
+   ========================================= */
+[class*="SubNavigation"],
+[class*="sub_navigation"],
+header[class*="top"] {
+  background: var(--hv-bg-base) !important;
+  border-bottom: 1px solid var(--hv-border) !important;
+}
+
+/* Server selector dropdown */
+[class*="ServerDropdown"],
+[class*="server_dropdown"] {
+  background: var(--hv-bg-elevated) !important;
+  border: 1px solid var(--hv-border) !important;
+  border-radius: var(--hv-radius) !important;
+  color: var(--hv-text-primary) !important;
+}
+
+/* =========================================
+   CARDS & PANELS
+   ========================================= */
+[class*="ContentBox"],
+[class*="content_box"],
+[class*="TitledGreyBox"],
+[class*="titled_grey_box"],
+div[class*="bg-gray"],
+.bg-gray-700,
+.bg-neutral-700 {
+  background: var(--hv-bg-surface) !important;
+  border: 1px solid var(--hv-border-soft) !important;
+  border-radius: var(--hv-radius-lg) !important;
+  color: var(--hv-text-primary) !important;
+}
+
+/* Card headers */
+[class*="ContentBox"] h2,
+[class*="TitledGreyBox"] h2 {
+  color: var(--hv-text-primary) !important;
+  font-weight: 600 !important;
+  font-size: 0.875rem !important;
+  letter-spacing: 0.02em !important;
+}
+
+/* =========================================
+   SERVER STATUS CARD (top of console page)
+   ========================================= */
+[class*="ServerDetailsBlock"],
+[class*="server_details"] {
+  background: var(--hv-bg-surface) !important;
+  border: 1px solid var(--hv-border) !important;
+  border-radius: var(--hv-radius-lg) !important;
+}
+
+/* Status badge — Online */
+[class*="status"][class*="online"],
+span[class*="green"] {
+  background: rgba(52, 211, 153, 0.15) !important;
+  color: var(--hv-green) !important;
+  border: 1px solid rgba(52, 211, 153, 0.3) !important;
+  border-radius: 6px !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  padding: 2px 8px !important;
+}
+
+/* Stat values (CPU, RAM, Disk) */
+[class*="ServerDetailsBlock"] p,
+[class*="server_details"] p {
+  color: var(--hv-text-secondary) !important;
+  font-family: var(--hv-font-mono) !important;
+  font-size: 0.8rem !important;
+}
+
+[class*="ServerDetailsBlock"] strong,
+[class*="server_details"] strong {
+  color: var(--hv-text-primary) !important;
+}
+
+/* =========================================
+   BUTTONS
+   ========================================= */
+
+/* Start */
+button[class*="start"],
+a[class*="start"],
+button[class*="green"],
+.btn-green {
+  background: rgba(52, 211, 153, 0.2) !important;
+  color: var(--hv-green) !important;
+  border: 1px solid rgba(52, 211, 153, 0.4) !important;
+  border-radius: var(--hv-radius) !important;
+  font-weight: 600 !important;
+  transition: all 0.15s !important;
+}
+button[class*="start"]:hover { background: rgba(52, 211, 153, 0.35) !important; }
+
+/* Restart / neutral */
+button[class*="restart"],
+button[class*="grey"],
+.btn-grey {
+  background: var(--hv-bg-elevated) !important;
+  color: var(--hv-text-secondary) !important;
+  border: 1px solid var(--hv-border-soft) !important;
+  border-radius: var(--hv-radius) !important;
+  font-weight: 600 !important;
+  transition: all 0.15s !important;
+}
+button[class*="restart"]:hover { background: var(--hv-bg-hover) !important; }
+
+/* Stop / danger */
+button[class*="stop"],
+button[class*="red"],
+button[class*="danger"],
+.btn-red {
+  background: rgba(248, 113, 113, 0.15) !important;
+  color: var(--hv-red) !important;
+  border: 1px solid rgba(248, 113, 113, 0.3) !important;
+  border-radius: var(--hv-radius) !important;
+  font-weight: 600 !important;
+  transition: all 0.15s !important;
+}
+button[class*="stop"]:hover { background: rgba(248, 113, 113, 0.28) !important; }
+
+/* Primary accent button */
+button[class*="primary"],
+button[type="submit"],
+.btn-primary {
+  background: var(--hv-accent) !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: var(--hv-radius) !important;
+  font-weight: 600 !important;
+  transition: all 0.15s !important;
+}
+button[class*="primary"]:hover,
+button[type="submit"]:hover {
+  background: var(--hv-accent-dim) !important;
+}
+
+/* =========================================
+   CONSOLE
+   ========================================= */
+[class*="Terminal"],
+[class*="terminal"],
+[class*="Console"],
+[class*="console"] > div {
+  background: var(--hv-bg-deep) !important;
+  border: 1px solid var(--hv-border) !important;
+  border-radius: var(--hv-radius-lg) !important;
+  font-family: var(--hv-font-mono) !important;
+  font-size: 0.8rem !important;
+  line-height: 1.6 !important;
+  color: #c9d1d9 !important;
+}
+
+/* Console log colours */
+[class*="terminal"] span[style*="color: #22c55e"],
+[class*="terminal"] [class*="green"] { color: var(--hv-green) !important; }
+
+[class*="terminal"] span[style*="color: #ef4444"],
+[class*="terminal"] [class*="red"]   { color: var(--hv-red) !important; }
+
+[class*="terminal"] span[style*="color: #eab308"],
+[class*="terminal"] [class*="yellow"] { color: var(--hv-yellow) !important; }
+
+/* Console server name prefix — hyperveil@container */
+[class*="terminal"] [class*="prefix"],
+[class*="xterm"] .xterm-rows span:first-child {
+  color: var(--hv-accent) !important;
+  font-weight: 600 !important;
+}
+
+/* Console input bar */
+[class*="console_input"],
+[class*="ConsoleInput"] input,
+input[placeholder*="command"] {
+  background: var(--hv-bg-elevated) !important;
+  border: 1px solid var(--hv-border) !important;
+  border-radius: var(--hv-radius) !important;
+  color: var(--hv-text-primary) !important;
+  font-family: var(--hv-font-mono) !important;
+  caret-color: var(--hv-accent) !important;
+}
+
+/* =========================================
+   FORMS & INPUTS
+   ========================================= */
+input,
+textarea,
+select {
+  background: var(--hv-bg-elevated) !important;
+  border: 1px solid var(--hv-border-soft) !important;
+  border-radius: var(--hv-radius) !important;
+  color: var(--hv-text-primary) !important;
+  transition: border-color 0.15s !important;
+}
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--hv-accent) !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px var(--hv-accent-glow) !important;
+}
+
+label {
+  color: var(--hv-text-secondary) !important;
+  font-size: 0.8rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.02em !important;
+}
+
+/* =========================================
+   TABS (View All / Info / Warning)
+   ========================================= */
+[class*="Tab"],
+[class*="tab"] {
+  color: var(--hv-text-secondary) !important;
+  border-bottom: 2px solid transparent !important;
+  transition: all 0.15s !important;
+  font-size: 0.8rem !important;
+  font-weight: 500 !important;
+  padding: 0.5rem 0.75rem !important;
+  cursor: pointer !important;
+}
+[class*="Tab"]:hover { color: var(--hv-text-primary) !important; }
+[class*="Tab"][class*="active"],
+[class*="Tab"][aria-selected="true"] {
+  color: var(--hv-purple-light) !important;
+  border-bottom-color: var(--hv-accent) !important;
+}
+
+/* =========================================
+   SCROLLBAR
+   ========================================= */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--hv-bg-base); }
+::-webkit-scrollbar-thumb {
+  background: var(--hv-accent-dim);
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--hv-accent); }
+
+/* =========================================
+   MODALS & DIALOGS
+   ========================================= */
+[class*="Modal"],
+[class*="modal"],
+[class*="Dialog"],
+[role="dialog"] {
+  background: var(--hv-bg-elevated) !important;
+  border: 1px solid var(--hv-border) !important;
+  border-radius: var(--hv-radius-lg) !important;
+  color: var(--hv-text-primary) !important;
+}
+
+[class*="Modal"] [class*="header"],
+[class*="Dialog"] [class*="header"] {
+  border-bottom: 1px solid var(--hv-border-soft) !important;
+}
+
+/* Overlay */
+[class*="Overlay"],
+[class*="overlay"] {
+  background: rgba(0, 0, 0, 0.65) !important;
+  backdrop-filter: blur(4px) !important;
+}
+
+/* =========================================
+   TABLES
+   ========================================= */
+table {
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  width: 100% !important;
+}
+thead tr {
+  background: var(--hv-bg-elevated) !important;
+  border-bottom: 1px solid var(--hv-border-soft) !important;
+}
+thead th {
+  color: var(--hv-text-muted) !important;
+  font-size: 0.7rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  padding: 0.6rem 1rem !important;
+}
+tbody tr {
+  background: var(--hv-bg-surface) !important;
+  border-bottom: 1px solid var(--hv-border-soft) !important;
+  transition: background 0.12s !important;
+}
+tbody tr:hover { background: var(--hv-bg-elevated) !important; }
+tbody td { color: var(--hv-text-primary) !important; padding: 0.75rem 1rem !important; }
+
+/* =========================================
+   FILE MANAGER
+   ========================================= */
+[class*="FileRow"],
+[class*="file_row"] {
+  background: var(--hv-bg-surface) !important;
+  border-bottom: 1px solid var(--hv-border-soft) !important;
+  transition: background 0.12s !important;
+}
+[class*="FileRow"]:hover { background: var(--hv-bg-elevated) !important; }
+
+[class*="FileRow"] [class*="name"],
+[class*="file_row"] span {
+  color: var(--hv-text-primary) !important;
+  font-family: var(--hv-font-mono) !important;
+  font-size: 0.82rem !important;
+}
+
+/* =========================================
+   MOBILE RESPONSIVE
+   ========================================= */
+@media (max-width: 768px) {
+  /* Sidebar collapses properly */
+  [class*="NavigationBar"],
+  [class*="sidebar"] {
+    width: 100% !important;
+    height: auto !important;
+    position: relative !important;
+    border-right: none !important;
+    border-bottom: 1px solid var(--hv-border) !important;
+  }
+
+  /* Cards full width */
+  [class*="ContentBox"],
+  [class*="TitledGreyBox"] {
+    margin: 0.5rem !important;
+    border-radius: var(--hv-radius) !important;
+  }
+
+  /* Console full width */
+  [class*="Terminal"],
+  [class*="Console"] {
+    font-size: 0.72rem !important;
+  }
+
+  /* Buttons stack nicely */
+  button[class*="start"],
+  button[class*="restart"],
+  button[class*="stop"] {
+    padding: 0.5rem 0.75rem !important;
+    font-size: 0.8rem !important;
+  }
+
+  /* Stat row wraps */
+  [class*="ServerDetailsBlock"] {
+    flex-wrap: wrap !important;
+    gap: 0.5rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  body { font-size: 14px !important; }
+  [class*="NavigationBar"] a { font-size: 0.8rem !important; }
+}
