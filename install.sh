@@ -56,7 +56,7 @@ if command -v blueprint &>/dev/null; then
 else
     warn "Blueprint not found — installing now..."
     cd "$PANEL_DIR"
-    curl -Lo blueprint.zip https://github.com/BlueprintFramework/framework/releases/latest/download/blueprint.zip
+    curl -Lo blueprint.zip https://github.com/BlueprintFramework/framework/releases/download/beta-2026-01/release.zip
     unzip -o blueprint.zip
     bash blueprint.sh
     success "Blueprint installed"
