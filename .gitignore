@@ -1,12 +1,6 @@
-# OS
 .DS_Store
 Thumbs.db
-
-# Editor
-.vscode/
-.idea/
-*.swp
-
-# Misc
 *.zip
 *.log
+.vscode/
+.idea/

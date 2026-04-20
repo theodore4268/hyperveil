@@ -1,0 +1,95 @@
+/* =========================================
+   HyperVeil — Admin Panel CSS
+   ========================================= */
+
+:root {
+  --hv-bg-deep:      #07080d;
+  --hv-bg-base:      #0c0e15;
+  --hv-bg-surface:   #121520;
+  --hv-bg-elevated:  #181b26;
+  --hv-accent:       #7c5cfc;
+  --hv-accent-dim:   #5a3fd4;
+  --hv-accent-glow:  rgba(124,92,252,0.20);
+  --hv-purple-light: #a78bfa;
+  --hv-text-1:       #eaedf5;
+  --hv-text-2:       #8b8fa8;
+  --hv-text-3:       #4a4e63;
+  --hv-border:       rgba(124,92,252,0.14);
+  --hv-border-soft:  rgba(255,255,255,0.055);
+  --hv-green: #34d399;
+  --hv-red:   #f87171;
+  --hv-r: 8px;
+}
+
+body, .wrapper { background: var(--hv-bg-deep) !important; color: var(--hv-text-1) !important; }
+
+.main-sidebar, .main-sidebar .sidebar {
+  background: var(--hv-bg-base) !important;
+  border-right: 1px solid var(--hv-border) !important;
+}
+.main-sidebar .sidebar-menu > li > a {
+  color: var(--hv-text-2) !important;
+  transition: all 0.13s !important;
+}
+.main-sidebar .sidebar-menu > li > a:hover,
+.main-sidebar .sidebar-menu > li.active > a {
+  background: rgba(124,92,252,0.10) !important;
+  color: var(--hv-purple-light) !important;
+  border-left: 3px solid var(--hv-accent) !important;
+}
+
+.main-header .navbar, .main-header .logo {
+  background: var(--hv-bg-base) !important;
+  border-bottom: 1px solid var(--hv-border) !important;
+  color: var(--hv-text-1) !important;
+}
+
+.content-wrapper { background: var(--hv-bg-deep) !important; }
+
+.box {
+  background: var(--hv-bg-surface) !important;
+  border: 1px solid var(--hv-border-soft) !important;
+  border-radius: var(--hv-r) !important;
+  box-shadow: none !important;
+  color: var(--hv-text-1) !important;
+}
+.box-header {
+  border-bottom: 1px solid var(--hv-border-soft) !important;
+  color: var(--hv-text-1) !important;
+  background: transparent !important;
+}
+
+.table > thead > tr > th {
+  background: var(--hv-bg-elevated) !important;
+  color: var(--hv-text-3) !important;
+  border-bottom: 1px solid var(--hv-border-soft) !important;
+  font-size: 0.68rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+}
+.table > tbody > tr > td {
+  background: var(--hv-bg-surface) !important;
+  border-top: 1px solid var(--hv-border-soft) !important;
+  color: var(--hv-text-1) !important;
+}
+.table > tbody > tr:hover > td { background: var(--hv-bg-elevated) !important; }
+
+.form-control {
+  background: var(--hv-bg-elevated) !important;
+  border: 1px solid var(--hv-border-soft) !important;
+  border-radius: var(--hv-r) !important;
+  color: var(--hv-text-1) !important;
+}
+.form-control:focus {
+  border-color: var(--hv-accent) !important;
+  box-shadow: 0 0 0 3px var(--hv-accent-glow) !important;
+}
+
+.btn-primary { background: var(--hv-accent) !important; border-color: var(--hv-accent) !important; }
+.btn-primary:hover { background: var(--hv-accent-dim) !important; }
+.btn-success { background: rgba(52,211,153,0.15) !important; border-color: rgba(52,211,153,0.3) !important; color: var(--hv-green) !important; }
+.btn-danger  { background: rgba(248,113,113,0.12) !important; border-color: rgba(248,113,113,0.28) !important; color: var(--hv-red) !important; }
+
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--hv-bg-base); }
+::-webkit-scrollbar-thumb { background: var(--hv-accent-dim); border-radius: 99px; }

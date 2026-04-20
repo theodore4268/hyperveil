@@ -1,105 +1,83 @@
 #!/usr/bin/env bash
 # ============================================================
 #  HyperVeil — install.sh
-#  Installs Blueprint (if needed) then builds the HyperVeil
-#  theme extension onto your Pterodactyl panel.
+#  Installs Blueprint then builds the HyperVeil theme.
+#  Run as root: sudo bash install.sh
 # ============================================================
 
-set -e
-
 PANEL_DIR="/var/www/pterodactyl"
-BLUE='\033[0;34m'
+BLUEPRINT_URL="https://github.com/BlueprintFramework/framework/releases/download/beta-2026-01/release.zip"
+
 PURPLE='\033[0;35m'
 GREEN='\033[0;32m'
 RED='\033[0;31m'
-YELLOW='\033[1;33m'
 NC='\033[0m'
 
-banner() {
-    echo -e "${PURPLE}"
-    echo "  ██╗  ██╗██╗   ██╗██████╗ ███████╗██████╗ ██╗   ██╗███████╗██╗██╗     "
-    echo "  ██║  ██║╚██╗ ██╔╝██╔══██╗██╔════╝██╔══██╗██║   ██║██╔════╝██║██║     "
-    echo "  ███████║ ╚████╔╝ ██████╔╝█████╗  ██████╔╝██║   ██║█████╗  ██║██║     "
-    echo "  ██╔══██║  ╚██╔╝  ██╔═══╝ ██╔══╝  ██╔══██╗╚██╗ ██╔╝██╔══╝  ██║██║     "
-    echo "  ██║  ██║   ██║   ██║     ███████╗██║  ██║ ╚████╔╝ ███████╗██║███████╗"
-    echo "  ╚═╝  ╚═╝   ╚═╝   ╚═╝     ╚══════╝╚═╝  ╚═╝  ╚═══╝  ╚══════╝╚═╝╚══════╝"
-    echo -e "${NC}"
-    echo -e "  ${PURPLE}Cyber Panel Theme for Pterodactyl${NC}"
-    echo ""
-}
+info()    { echo -e "  ${PURPLE}[info]${NC}  $1"; }
+success() { echo -e "  ${GREEN}[ok]${NC}    $1"; }
+error()   { echo -e "  ${RED}[error]${NC} $1"; exit 1; }
 
-info()    { echo -e "  ${BLUE}[info]${NC}    $1"; }
-success() { echo -e "  ${GREEN}[ok]${NC}      $1"; }
-warn()    { echo -e "  ${YELLOW}[warn]${NC}    $1"; }
-error()   { echo -e "  ${RED}[error]${NC}   $1"; exit 1; }
-step()    { echo -e "\n  ${PURPLE}▸${NC} $1"; }
+echo -e "${PURPLE}"
+echo "  ██╗  ██╗██╗   ██╗██████╗ ███████╗██████╗ ██╗   ██╗███████╗██╗██╗      "
+echo "  ██║  ██║╚██╗ ██╔╝██╔══██╗██╔════╝██╔══██╗╚██╗ ██╔╝██╔════╝██║██║      "
+echo "  ███████║ ╚████╔╝ ██████╔╝█████╗  ██████╔╝ ╚████╔╝ █████╗  ██║██║      "
+echo "  ██╔══██║  ╚██╔╝  ██╔═══╝ ██╔══╝  ██╔══██╗  ╚██╔╝  ██╔══╝  ██║██║      "
+echo "  ██║  ██║   ██║   ██║     ███████╗██║  ██║   ██║   ███████╗██║███████╗ "
+echo "  ╚═╝  ╚═╝   ╚═╝   ╚═╝     ╚══════╝╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═╝╚══════╝"
+echo -e "${NC}"
 
-# ── Root check ──────────────────────────────────────────────
-if [ "$EUID" -ne 0 ]; then
-    error "Please run as root: sudo bash install.sh"
-fi
+# ── Root check ───────────────────────────────────────────────
+[ "$EUID" -ne 0 ] && error "Please run as root: sudo bash install.sh"
 
-banner
-
-# ── Panel directory check ────────────────────────────────────
-step "Checking panel directory..."
-if [ ! -d "$PANEL_DIR" ]; then
-    error "Panel not found at $PANEL_DIR. Edit PANEL_DIR in this script if yours is different."
-fi
+# ── Panel check ──────────────────────────────────────────────
+[ ! -d "$PANEL_DIR" ] && error "Panel not found at $PANEL_DIR"
 success "Panel found at $PANEL_DIR"
 
-# ── Blueprint check / install ────────────────────────────────
-step "Checking for Blueprint..."
+# ── Blueprint ────────────────────────────────────────────────
 if command -v blueprint &>/dev/null; then
-    BV=$(blueprint -version 2>/dev/null || echo "unknown")
-    success "Blueprint already installed (version: $BV)"
+    success "Blueprint already installed ($(blueprint -version 2>/dev/null || echo 'unknown'))"
 else
-    warn "Blueprint not found — installing now..."
-    cd "$PANEL_DIR"
-    curl -Lo blueprint.zip https://github.com/BlueprintFramework/framework/releases/download/beta-2026-01/release.zip
-    unzip -o blueprint.zip
-    bash blueprint.sh
+    info "Installing Blueprint..."
+    cd "$PANEL_DIR" || error "Cannot cd to $PANEL_DIR"
+    curl -Lo blueprint.zip "$BLUEPRINT_URL" || error "Failed to download Blueprint"
+    unzip -o blueprint.zip || error "Failed to unzip Blueprint"
+    bash blueprint.sh || error "Blueprint installer failed"
     success "Blueprint installed"
 fi
 
 # ── Copy extension files ─────────────────────────────────────
-step "Copying HyperVeil extension files..."
-
+info "Copying HyperVeil files..."
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-DEV_DIR="$PANEL_DIR/.blueprint/dev"
+DEV="$PANEL_DIR/.blueprint/dev"
 
-mkdir -p "$DEV_DIR/dashboard"
-mkdir -p "$DEV_DIR/admin"
-mkdir -p "$DEV_DIR/assets"
+mkdir -p "$DEV/admin" "$DEV/dashboard" "$DEV/database" "$DEV/requests"
 
-cp "$SCRIPT_DIR/conf.yml"                    "$DEV_DIR/conf.yml"
-cp "$SCRIPT_DIR/dashboard/dashboard.css"     "$DEV_DIR/dashboard/dashboard.css"
-cp "$SCRIPT_DIR/dashboard/wrapper.blade.php" "$DEV_DIR/dashboard/wrapper.blade.php"
-cp "$SCRIPT_DIR/admin/admin.css"             "$DEV_DIR/admin/admin.css"
-cp "$SCRIPT_DIR/admin/wrapper.blade.php"     "$DEV_DIR/admin/wrapper.blade.php"
+cp "$SCRIPT_DIR/conf.yml"                     "$DEV/conf.yml"
+cp "$SCRIPT_DIR/admin/admin.css"              "$DEV/admin/admin.css"
+cp "$SCRIPT_DIR/admin/Controller.php"         "$DEV/admin/Controller.php"
+cp "$SCRIPT_DIR/admin/view.blade.php"         "$DEV/admin/view.blade.php"
+cp "$SCRIPT_DIR/admin/wrapper.blade.php"      "$DEV/admin/wrapper.blade.php"
+cp "$SCRIPT_DIR/dashboard/dashboard.css"      "$DEV/dashboard/dashboard.css"
+cp "$SCRIPT_DIR/dashboard/wrapper.blade.php"  "$DEV/dashboard/wrapper.blade.php"
+cp "$SCRIPT_DIR/requests/web.php"             "$DEV/requests/web.php"
+cp "$SCRIPT_DIR/database/"*.php               "$DEV/database/"
 
-# Copy icon if it exists
-if [ -f "$SCRIPT_DIR/assets/icon.png" ]; then
-    cp "$SCRIPT_DIR/assets/icon.png" "$DEV_DIR/assets/icon.png"
-fi
-
-success "Files copied to $DEV_DIR"
+success "Files copied"
 
 # ── Build ────────────────────────────────────────────────────
-step "Building HyperVeil theme..."
-cd "$PANEL_DIR"
-blueprint -build
-success "Theme built and applied!"
+info "Building HyperVeil..."
+cd "$PANEL_DIR" || error "Cannot cd to $PANEL_DIR"
+blueprint -build || error "blueprint -build failed — check output above"
+success "Done!"
 
-# ── Done ─────────────────────────────────────────────────────
 echo ""
-echo -e "  ${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo -e "  ${GREEN}  HyperVeil is live on your panel!${NC}"
-echo -e "  ${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+echo -e "  ${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+echo -e "  ${GREEN}  HyperVeil is live! 🎉${NC}"
+echo -e "  ${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo ""
-echo -e "  To update the theme after making changes:"
+echo -e "  Manage announcements:"
+echo -e "  ${PURPLE}  https://your-panel/admin/extensions/hyperveil${NC}"
+echo ""
+echo -e "  To rebuild after changes:"
 echo -e "  ${PURPLE}  cd $PANEL_DIR && blueprint -build${NC}"
-echo ""
-echo -e "  To edit the announcement banner:"
-echo -e "  ${PURPLE}  nano $DEV_DIR/dashboard/wrapper.blade.php${NC}"
 echo ""

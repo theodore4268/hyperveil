@@ -11,14 +11,14 @@ return new class extends Migration {
         Schema::create('hyperveil_announcement', function (Blueprint $table) {
             $table->id();
             $table->boolean('visible')->default(false);
-            $table->string('type')->default('info');       // info | warning | danger | success
-            $table->text('message')->default('');
-            $table->string('link')->nullable();
-            $table->string('link_text')->nullable();
+            $table->string('type', 20)->default('info');
+            $table->text('message')->nullable();
+            $table->string('link', 255)->nullable();
+            $table->string('link_text', 60)->nullable();
             $table->timestamps();
         });
 
-        // Seed a default row so there's always one record to UPDATE
+        // Seed a default row — always one record, we UPDATE not INSERT
         DB::table('hyperveil_announcement')->insert([
             'visible'    => false,
             'type'       => 'info',

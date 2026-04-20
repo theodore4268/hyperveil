@@ -1,10 +1,10 @@
 # HyperVeil
 
-> Cyber-styled dark theme for [Pterodactyl](https://pterodactyl.io) — purple accents, clean cards, announcement banners, and `hyperveil@container` console branding.
+> Cyber-styled dark theme for [Pterodactyl](https://pterodactyl.io) — purple accents, announcement banner with admin UI, and `hyperveil@container` console branding.
 
-![version](https://img.shields.io/badge/version-1.0.0-7c5cfc?style=flat-square)
+![version](https://img.shields.io/badge/version-1.1.0-7c5cfc?style=flat-square)
 ![pterodactyl](https://img.shields.io/badge/pterodactyl-1.12.x-a78bfa?style=flat-square)
-![blueprint](https://img.shields.io/badge/requires-blueprint-5a3fd4?style=flat-square)
+![blueprint](https://img.shields.io/badge/blueprint-beta--2026--01-5a3fd4?style=flat-square)
 ![license](https://img.shields.io/badge/license-MIT-34d399?style=flat-square)
 
 ---
@@ -13,29 +13,24 @@
 
 - **Cyber dark UI** — deep backgrounds, purple/violet accents, techy monospace console
 - **Arix-inspired layout** — clean sidebar, coloured action buttons, status badges
-- **Announcement banner** — dismissible top banner with `info`, `warning`, `danger`, and `success` types
-- **`hyperveil@container` branding** — console prefix styled in your accent colour
-- **Mobile responsive** — works great on phones and tablets
-- **Blueprint compatible** — install other Blueprint extensions alongside it
+- **Announcement banner** — dismissible top banner managed from the admin panel
+- **Admin UI** — manage announcements at `/admin/extensions/hyperveil`, no file editing needed
+- **`hyperveil@container` branding** — console prefix styled in accent colour
+- **Mobile responsive**
+- **Blueprint compatible** — works alongside other Blueprint extensions
 
 ---
 
 ## Requirements
 
-| Requirement | Version |
+| | Version |
 |---|---|
 | Pterodactyl Panel | 1.12.x |
-| Blueprint | Latest |
-| Node.js | 18+ |
-| Yarn | 1.x |
+| Blueprint | beta-2026-01 |
 
 ---
 
 ## Installation
-
-### One-command install
-
-Run this on your panel server as root:
 
 ```bash
 git clone https://github.com/YOUR_USERNAME/hyperveil.git
@@ -43,100 +38,7 @@ cd hyperveil
 sudo bash install.sh
 ```
 
-The script will:
-1. Check for Blueprint and install it if missing
-2. Copy all theme files into Blueprint's dev directory
-3. Run `blueprint -build` to apply the theme
-
-### Manual install
-
-If you prefer to do it step by step:
-
-```bash
-# 1. Install Blueprint if you haven't already
-cd /var/www/pterodactyl
-curl -Lo blueprint.zip https://github.com/BlueprintFramework/framework/releases/latest/download/blueprint.zip
-unzip blueprint.zip && bash blueprint.sh
-
-# 2. Copy theme files
-cp -r dashboard admin assets conf.yml /var/www/pterodactyl/.blueprint/dev/
-
-# 3. Build
-cd /var/www/pterodactyl
-blueprint -build
-```
-
----
-
-## Customisation
-
-### Changing the announcement banner
-
-Edit `dashboard/wrapper.blade.php` and find the `$announcement` array near the top:
-
-```php
-$announcement = [
-    'visible'   => true,           // true or false
-    'type'      => 'info',         // info | warning | danger | success
-    'message'   => 'Your message here',
-    'link'      => 'https://...',  // optional link
-    'link_text' => 'Click here',   // optional link label
-];
-```
-
-After editing, rebuild:
-```bash
-cd /var/www/pterodactyl && blueprint -build
-```
-
-### Changing colours
-
-All colours are defined as CSS variables at the top of `dashboard/dashboard.css`:
-
-```css
-:root {
-  --hv-accent:       #7c5cfc;   /* main purple */
-  --hv-accent-dim:   #5a3fd4;   /* darker purple for hover */
-  --hv-purple-light: #a78bfa;   /* light purple for active nav */
-  --hv-bg-deep:      #0a0b0f;   /* darkest background */
-  --hv-bg-base:      #0f1117;   /* sidebar background */
-  --hv-bg-surface:   #161920;   /* card background */
-  /* ... */
-}
-```
-
-Change any hex value and rebuild.
-
-### Changing the console hostname
-
-The console branding is in `dashboard/wrapper.blade.php`. Find:
-
-```js
-const BRAND = 'hyperveil';
-```
-
-Change `'hyperveil'` to whatever you want.
-
----
-
-## Updating
-
-After a Pterodactyl panel update, just re-run the install script to reapply:
-
-```bash
-cd hyperveil && sudo bash install.sh
-```
-
----
-
-## Contributing
-
-This is a solo project but PRs and issues are welcome.
-
-- Fork the repo
-- Make your changes
-- Open a PR with a description of what you changed
-- Tag `@claude` in the PR for an automated review
+The script installs Blueprint if missing, copies all files, and runs `blueprint -build`.
 
 ---
 
@@ -144,17 +46,51 @@ This is a solo project but PRs and issues are welcome.
 
 ```
 hyperveil/
-├── conf.yml                      # Blueprint extension manifest
-├── install.sh                    # One-command installer
-├── README.md                     # This file
-├── assets/
-│   └── icon.png                  # Extension icon (shown in Blueprint admin)
+├── conf.yml                          # Blueprint manifest
+├── install.sh                        # One-command installer
+├── README.md
+├── public/
+│   └── icon.png                      # Extension icon (optional)
+├── admin/
+│   ├── admin.css                     # Admin panel styles
+│   ├── Controller.php                # Handles GET + POST for announcement manager
+│   ├── view.blade.php                # Announcement manager UI
+│   └── wrapper.blade.php             # Injects fonts into admin panel
 ├── dashboard/
-│   ├── dashboard.css             # Client panel CSS overrides
-│   └── wrapper.blade.php         # Announcement banner + hostname branding
-└── admin/
-    ├── admin.css                 # Admin panel CSS overrides
-    └── wrapper.blade.php         # Admin font injection
+│   ├── dashboard.css                 # Client panel styles
+│   └── wrapper.blade.php             # Announcement banner + hostname branding
+├── database/
+│   └── ..._create_hyperveil_announcement_table.php
+└── requests/
+    ├── app/                          # (reserved for future controllers)
+    ├── views/                        # (reserved for future views)
+    └── web.php                       # Route definitions
+```
+
+---
+
+## Customising colours
+
+All CSS variables are at the top of `dashboard/dashboard.css` and `admin/admin.css`:
+
+```css
+--hv-accent:       #7c5cfc;   /* main purple */
+--hv-accent-dim:   #5a3fd4;   /* hover purple */
+--hv-purple-light: #a78bfa;   /* active nav */
+--hv-bg-deep:      #07080d;   /* darkest bg */
+```
+
+Change a value, push to GitHub, then re-run `sudo bash install.sh` on your server.
+
+---
+
+## Updating
+
+After any panel update or theme change:
+
+```bash
+cd hyperveil && git pull
+sudo bash install.sh
 ```
 
 ---
@@ -163,14 +99,14 @@ hyperveil/
 
 - [x] Cyber dark theme
 - [x] Announcement banner
+- [x] Admin UI for announcements
 - [x] `hyperveil@container` console branding
 - [x] Mobile responsive
-- [ ] Server resource pooling (requires Blueprint + Wings work)
-- [ ] Admin panel announcement editor (no file editing needed)
-- [ ] Light mode variant
+- [ ] Resource pooling (requires Blueprint + Wings work)
+- [ ] Light mode
 
 ---
 
 ## License
 
-MIT — do whatever you want with it, credit appreciated but not required.
+MIT

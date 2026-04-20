@@ -10,9 +10,6 @@ use Pterodactyl\Http\Controllers\Controller;
 
 class hyperveilExtensionController extends Controller
 {
-    /**
-     * Show the HyperVeil admin page.
-     */
     public function index(): View
     {
         $announcement = DB::table('hyperveil_announcement')->first();
@@ -22,9 +19,6 @@ class hyperveilExtensionController extends Controller
         ]);
     }
 
-    /**
-     * Save announcement settings.
-     */
     public function update(Request $request): RedirectResponse
     {
         $request->validate([
@@ -35,7 +29,7 @@ class hyperveilExtensionController extends Controller
         ]);
 
         DB::table('hyperveil_announcement')->where('id', 1)->update([
-            'visible'    => $request->has('visible') ? true : false,
+            'visible'    => $request->has('visible'),
             'type'       => $request->input('type'),
             'message'    => $request->input('message'),
             'link'       => $request->input('link') ?: null,
@@ -43,7 +37,7 @@ class hyperveilExtensionController extends Controller
             'updated_at' => now(),
         ]);
 
-        return redirect()->route('admin.extensions.hyperveil.index')
-            ->with('success', 'Announcement updated successfully.');
+        return redirect('/admin/extensions/hyperveil')
+            ->with('success', 'Announcement saved!');
     }
 }
