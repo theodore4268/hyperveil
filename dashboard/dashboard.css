@@ -1,105 +1,247 @@
 /* =========================================
-   HyperVeil — Dashboard CSS (real selectors)
+   HyperVeil — Dashboard CSS
+   Based on real Pterodactyl v1.12.2 source
    ========================================= */
 
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
 
 :root {
-  --hv-bg-deep:      #07080d;
-  --hv-bg-base:      #0c0e15;
-  --hv-bg-surface:   #111420;
-  --hv-bg-elevated:  #171a27;
-  --hv-bg-hover:     #1d2030;
-  --hv-accent:       #7c5cfc;
-  --hv-accent-dim:   #5a3fd4;
-  --hv-accent-glow:  rgba(124,92,252,0.20);
-  --hv-accent-soft:  rgba(124,92,252,0.10);
-  --hv-purple:       #a78bfa;
-  --hv-text-1:       #eaedf5;
-  --hv-text-2:       #8b8fa8;
-  --hv-text-3:       #454863;
-  --hv-border:       rgba(124,92,252,0.14);
-  --hv-border-soft:  rgba(255,255,255,0.055);
-  --hv-green:  #34d399;
-  --hv-yellow: #fbbf24;
-  --hv-red:    #f87171;
-  --hv-mono:   'JetBrains Mono', monospace;
-  --hv-sans:   'Space Grotesk', sans-serif;
-  --hv-r:  8px;
-  --hv-rl: 12px;
+  --hv-bg-deep:     #07080d;
+  --hv-bg-base:     #0c0e15;
+  --hv-bg-surface:  #111420;
+  --hv-bg-elevated: #171a27;
+  --hv-bg-hover:    #1d2030;
+  --hv-accent:      #7c5cfc;
+  --hv-accent-dim:  #5a3fd4;
+  --hv-accent-glow: rgba(124,92,252,0.20);
+  --hv-accent-soft: rgba(124,92,252,0.10);
+  --hv-purple:      #a78bfa;
+  --hv-cyan:        #67e8f9;
+  --hv-text-1:      #eaedf5;
+  --hv-text-2:      #8b8fa8;
+  --hv-text-3:      #454863;
+  --hv-border:      rgba(124,92,252,0.14);
+  --hv-border-soft: rgba(255,255,255,0.055);
+  --hv-green: #34d399; --hv-yellow: #fbbf24; --hv-red: #f87171;
+  --hv-mono: 'JetBrains Mono', monospace;
+  --hv-sans: 'Space Grotesk', sans-serif;
 }
 
-*, body, html { font-family: var(--hv-sans) !important; -webkit-font-smoothing: antialiased !important; }
-body.bg-neutral-800 { background: var(--hv-bg-deep) !important; color: var(--hv-text-1) !important; }
+/* ── Body ── */
+body { background: var(--hv-bg-deep) !important; color: var(--hv-text-1) !important; }
 
-/* Top nav */
-div.w-full.bg-neutral-900.shadow-md { background: var(--hv-bg-base) !important; border-bottom: 1px solid var(--hv-border) !important; box-shadow: none !important; }
-a.text-2xl.font-header { color: var(--hv-purple) !important; font-weight: 700 !important; }
+/* ── Top nav: div.w-full.bg-neutral-900.shadow-md ── */
+div.w-full.bg-neutral-900.shadow-md {
+    background: var(--hv-bg-base) !important;
+    border-bottom: 1px solid var(--hv-border) !important;
+    box-shadow: none !important;
+}
+
+/* Panel name link: a.text-2xl.font-header */
+a.text-2xl.font-header {
+    color: var(--hv-purple) !important;
+    font-family: var(--hv-sans) !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.02em !important;
+}
 a.text-2xl.font-header:hover { color: var(--hv-text-1) !important; }
 
-/* Nav links */
-div.navigation-link a, div.navigation-link span { color: var(--hv-text-2) !important; font-size: 0.8rem !important; font-weight: 500 !important; transition: color 0.13s !important; }
-div.navigation-link a:hover { color: var(--hv-text-1) !important; }
-div.navigation-link a.active { color: var(--hv-purple) !important; border-bottom: 2px solid var(--hv-accent) !important; }
+/* RightNavigation links — styled-components generates NavigationBar__RightNavigation */
+[class*="NavigationBar__RightNavigation"] > a,
+[class*="NavigationBar__RightNavigation"] > button,
+[class*="NavigationBar__RightNavigation"] > .navigation-link {
+    color: var(--hv-text-2) !important;
+    transition: all 0.13s !important;
+}
+[class*="NavigationBar__RightNavigation"] > a:hover,
+[class*="NavigationBar__RightNavigation"] > button:hover,
+[class*="NavigationBar__RightNavigation"] > .navigation-link:hover {
+    background: var(--hv-bg-hover) !important;
+    color: var(--hv-text-1) !important;
+}
+[class*="NavigationBar__RightNavigation"] > a.active,
+[class*="NavigationBar__RightNavigation"] > .navigation-link.active {
+    color: var(--hv-purple) !important;
+    box-shadow: inset 0 -2px var(--hv-accent) !important;
+}
 
-/* Sub nav */
-div.SubNavigation-sc-lfuaoi-0 { background: var(--hv-bg-base) !important; border-bottom: 1px solid var(--hv-border) !important; box-shadow: none !important; }
-div.SubNavigation-sc-lfuaoi-0 a { color: var(--hv-text-2) !important; font-size: 0.8rem !important; font-weight: 500 !important; border-bottom: 2px solid transparent !important; transition: all 0.13s !important; }
-div.SubNavigation-sc-lfuaoi-0 a:hover { color: var(--hv-text-1) !important; }
-div.SubNavigation-sc-lfuaoi-0 a.active { color: var(--hv-purple) !important; border-bottom-color: var(--hv-accent) !important; }
+/* ── SubNavigation: bg-neutral-700 shadow ── */
+[class*="SubNavigation"] {
+    background: var(--hv-bg-base) !important;
+    border-bottom: 1px solid var(--hv-border) !important;
+    box-shadow: none !important;
+}
+[class*="SubNavigation"] > div > a,
+[class*="SubNavigation"] > div > div {
+    color: var(--hv-text-2) !important;
+    font-family: var(--hv-sans) !important;
+    font-size: 0.8rem !important;
+    font-weight: 500 !important;
+    transition: all 0.13s !important;
+}
+[class*="SubNavigation"] > div > a:hover { color: var(--hv-text-1) !important; }
+[class*="SubNavigation"] > div > a.active {
+    color: var(--hv-purple) !important;
+    box-shadow: inset 0 -2px var(--hv-accent) !important;
+}
 
-/* Page bg */
-div.ContentContainer-sc-x3r2dw-0 { background: var(--hv-bg-deep) !important; }
-div.Fade__Container-sc-1p0gm8n-0 { background: transparent !important; }
-section.fade-appear-done, section.fade-enter-done { background: transparent !important; }
+/* ── Page containers ── */
+[class*="ContentContainer"] { background: var(--hv-bg-deep) !important; }
+[class*="Fade__Container"] { background: transparent !important; }
+section { background: transparent !important; }
 
-/* Cards */
-div.ContentBox___StyledDiv-sc-mjlt6f-2 { background: var(--hv-bg-surface) !important; border: 1px solid var(--hv-border-soft) !important; border-radius: var(--hv-rl) !important; color: var(--hv-text-1) !important; }
-h2.ContentBox___StyledH-sc-mjlt6f-0 { color: var(--hv-text-1) !important; font-weight: 600 !important; font-size: 0.9rem !important; border-bottom: 1px solid var(--hv-border-soft) !important; padding-bottom: 0.75rem !important; margin-bottom: 0.75rem !important; }
+/* ── GreyRowBox (server list rows): bg-neutral-700, border-transparent ── */
+[class*="GreyRowBox"],
+[class*="StatusIndicatorBox"] {
+    background: var(--hv-bg-surface) !important;
+    border-color: var(--hv-border-soft) !important;
+    border-radius: 10px !important;
+    color: var(--hv-text-1) !important;
+    transition: border-color 0.13s, background 0.13s !important;
+}
+[class*="GreyRowBox"]:hover,
+[class*="StatusIndicatorBox"]:hover {
+    background: var(--hv-bg-elevated) !important;
+    border-color: var(--hv-border) !important;
+}
 
-/* Inputs */
-input.Input-sc-19rce1w-0 { background: var(--hv-bg-elevated) !important; border: 1px solid var(--hv-border-soft) !important; border-radius: var(--hv-r) !important; color: var(--hv-text-1) !important; transition: border-color 0.13s !important; }
-input.Input-sc-19rce1w-0:focus { border-color: var(--hv-accent) !important; outline: none !important; box-shadow: 0 0 0 3px var(--hv-accent-glow) !important; }
-label.Label-sc-g780ms-0 { color: var(--hv-text-2) !important; font-size: 0.78rem !important; font-weight: 500 !important; }
+/* Server icon circle */
+[class*="GreyRowBox"] .icon,
+[class*="StatusIndicatorBox"] .icon {
+    background: var(--hv-bg-elevated) !important;
+    border: 1px solid var(--hv-border-soft) !important;
+}
+
+/* Server name text */
+[class*="StatusIndicatorBox"] p.text-lg { color: var(--hv-text-1) !important; font-weight: 600 !important; }
+[class*="StatusIndicatorBox"] p.text-sm { color: var(--hv-text-2) !important; }
+
+/* Status bar on server rows */
+[class*="StatusIndicatorBox"] .status-bar { border-radius: 0 8px 8px 0 !important; }
+
+/* ── ContentBox: bg-neutral-700 rounded shadow ── */
+[class*="ContentBox"] {
+    background: var(--hv-bg-surface) !important;
+    border: 1px solid var(--hv-border-soft) !important;
+    border-radius: 12px !important;
+    color: var(--hv-text-1) !important;
+}
+[class*="ContentBox"] h2 {
+    color: var(--hv-text-1) !important;
+    font-weight: 600 !important;
+    border-bottom: 1px solid var(--hv-border-soft) !important;
+    padding-bottom: 0.65rem !important;
+}
+
+/* ── Console stat blocks: .stat_block ── */
+.stat_block {
+    background: var(--hv-bg-surface) !important;
+    border: 1px solid var(--hv-border-soft) !important;
+    border-radius: 10px !important;
+    box-shadow: none !important;
+}
+.stat_block .icon {
+    background: var(--hv-accent-soft) !important;
+    border: 1px solid var(--hv-border) !important;
+}
+.stat_block .icon svg { color: var(--hv-purple) !important; }
+
+/* ── Terminal container: .terminal .container bg-black ── */
+.terminal > .container {
+    background: var(--hv-bg-deep) !important;
+    border: 1px solid var(--hv-border) !important;
+    border-radius: 10px 10px 0 0 !important;
+}
+
+/* Command input: .command_input bg-gray-900 ── */
+.command_input {
+    background: var(--hv-bg-elevated) !important;
+    color: var(--hv-text-1) !important;
+    font-family: var(--hv-mono) !important;
+    border-bottom-color: transparent !important;
+    border-radius: 0 0 10px 10px !important;
+}
+.command_input:focus { border-bottom-color: var(--hv-accent) !important; }
+.command_icon { color: var(--hv-accent) !important; }
+
+/* xterm terminal itself */
+.xterm-viewport { background: var(--hv-bg-deep) !important; }
+.xterm-screen canvas { background: var(--hv-bg-deep) !important; }
+
+/* ── Inputs ── */
+input:not([type='checkbox']):not([type='radio']),
+textarea, select {
+    background: var(--hv-bg-elevated) !important;
+    border-color: var(--hv-border-soft) !important;
+    border-radius: 8px !important;
+    color: var(--hv-text-1) !important;
+    font-family: var(--hv-sans) !important;
+    transition: border-color 0.13s, box-shadow 0.13s !important;
+}
+input:focus, textarea:focus, select:focus {
+    border-color: var(--hv-accent) !important;
+    box-shadow: 0 0 0 3px var(--hv-accent-glow) !important;
+    outline: none !important;
+}
+label { color: var(--hv-text-2) !important; font-size: 0.78rem !important; font-weight: 500 !important; }
 p.input-help { color: var(--hv-text-3) !important; font-size: 0.72rem !important; }
 
-/* Buttons */
-button.style-module_4LBM1DKx { border-radius: var(--hv-r) !important; font-family: var(--hv-sans) !important; font-weight: 600 !important; transition: all 0.13s !important; }
-button.style-module_3kBDV_wo { background: var(--hv-accent) !important; color: #fff !important; border: none !important; }
-button.style-module_3kBDV_wo:hover { background: var(--hv-accent-dim) !important; }
+/* ── Buttons ── */
+button { font-family: var(--hv-sans) !important; border-radius: 8px !important; transition: all 0.13s !important; }
 
-/* Terminal */
-div.terminal.xterm { background: var(--hv-bg-deep) !important; border: 1px solid var(--hv-border) !important; border-radius: var(--hv-rl) !important; }
-.xterm-viewport { background: var(--hv-bg-deep) !important; }
-.xterm-screen { background: var(--hv-bg-deep) !important; }
-.xterm-rows > div > span:first-child { color: var(--hv-accent) !important; font-weight: 600 !important; }
+/* Primary styled button */
+[class*="style-module"] {
+    background: var(--hv-accent) !important;
+    color: #fff !important;
+    border: none !important;
+    font-weight: 600 !important;
+}
+[class*="style-module"]:hover { background: var(--hv-accent-dim) !important; }
 
-/* Tailwind overrides */
-.bg-neutral-800 { background: var(--hv-bg-deep) !important; }
+/* ── Tailwind neutral class overrides (used throughout components) ── */
 .bg-neutral-900 { background: var(--hv-bg-base) !important; }
+.bg-neutral-800 { background: var(--hv-bg-deep) !important; }
 .bg-neutral-700 { background: var(--hv-bg-surface) !important; }
 .bg-neutral-600 { background: var(--hv-bg-elevated) !important; }
-.text-neutral-200, .text-neutral-300 { color: var(--hv-text-1) !important; }
+.bg-neutral-500 { background: var(--hv-bg-hover) !important; }
+.bg-black { background: var(--hv-bg-deep) !important; }
+.bg-gray-900 { background: var(--hv-bg-elevated) !important; }
+.bg-gray-600 { background: var(--hv-bg-surface) !important; }
+
+.text-neutral-100, .text-neutral-200, .text-neutral-300 { color: var(--hv-text-1) !important; }
 .text-neutral-400 { color: var(--hv-text-2) !important; }
-.text-neutral-500 { color: var(--hv-text-3) !important; }
-.border-neutral-700, .border-neutral-600 { border-color: var(--hv-border-soft) !important; }
+.text-neutral-500, .text-neutral-600 { color: var(--hv-text-3) !important; }
+.text-gray-100 { color: var(--hv-text-1) !important; }
+.text-gray-900 { color: var(--hv-bg-deep) !important; }
 
-/* Hide watermarks/footers */
-p.PageContentBlock___StyledP-sc-kbxq2g-3 { display: none !important; }
-a[href*="pterodactyl.io"] { display: none !important; }
-a[href*="blueprint.zip"] { display: none !important; }
+.border-neutral-700, .border-neutral-600, .border-neutral-800 { border-color: var(--hv-border-soft) !important; }
+.hover\:border-neutral-500:hover { border-color: var(--hv-border) !important; }
+.hover\:bg-neutral-700:hover { background: var(--hv-bg-hover) !important; }
+.hover\:bg-neutral-600:hover { background: var(--hv-bg-elevated) !important; }
+.hover\:text-neutral-100:hover, .hover\:text-neutral-300:hover { color: var(--hv-text-1) !important; }
 
-/* Scrollbar */
+.shadow, .shadow-md, .shadow-lg { box-shadow: 0 4px 24px rgba(0,0,0,0.4) !important; }
+
+/* Status badges */
+.bg-red-500 { background: rgba(248,113,113,0.15) !important; }
+.bg-green-500 { background: rgba(52,211,153,0.15) !important; }
+.bg-yellow-500 { background: rgba(251,191,36,0.15) !important; }
+span.bg-red-500, span.bg-neutral-500 { border-radius: 5px !important; padding: 2px 8px !important; }
+
+/* ── Hide Pterodactyl/Blueprint branding ── */
+[class*="PageContentBlock__StyledP"],
+[class*="PageContentBlock__StyledA"],
+a[href*="pterodactyl.io"],
+a[href*="blueprint.zip"],
+span.mx-2 { display: none !important; }
+
+/* ── Scrollbar ── */
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: var(--hv-bg-base); }
 ::-webkit-scrollbar-thumb { background: var(--hv-accent-dim); border-radius: 99px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--hv-accent); }
 
-/* HyperVeil watermark */
-body::after { content: 'HyperVeil'; position: fixed; bottom: 9px; right: 13px; font-family: var(--hv-mono); font-size: 0.56rem; font-weight: 600; color: rgba(124,92,252,0.18); letter-spacing: 0.14em; text-transform: uppercase; pointer-events: none; z-index: 9998; }
-
-/* Mobile */
+/* ── Mobile ── */
 @media (max-width: 768px) {
-  div.SubNavigation-sc-lfuaoi-0 a { font-size: 0.72rem !important; }
-  div.terminal.xterm { font-size: 0.68rem !important; }
+    [class*="SubNavigation"] > div > a { font-size: 0.72rem !important; padding: 0.4rem 0.5rem !important; }
 }
