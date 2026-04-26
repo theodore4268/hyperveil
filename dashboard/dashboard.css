@@ -309,3 +309,161 @@ a[class*="eOGAqX"] { display: none !important; }
 @media (max-width: 768px) {
     [class*="SubNavigation"] > div > a { font-size: 0.72rem !important; }
 }
+
+/* ══════════════════════════════════════════
+   HyperVeil — Additional fixes v2.1
+   From real source: StatGraphs, Files, Activity
+   ══════════════════════════════════════════ */
+
+/* ── ChartBlock: .chart_container bg-gray-600 border-b-4 border-gray-700 ── */
+[class*="chart_container"] {
+    background: var(--hv-bg-surface) !important;
+    border: 1px solid var(--hv-border-soft) !important;
+    border-bottom: 3px solid var(--hv-accent-dim) !important;
+    border-radius: 10px !important;
+    box-shadow: none !important;
+}
+[class*="chart_container"] h3 {
+    color: var(--hv-text-2) !important;
+    font-size: 0.8rem !important;
+    font-weight: 600 !important;
+    font-family: var(--hv-sans) !important;
+    letter-spacing: 0.04em !important;
+    text-transform: uppercase !important;
+}
+[class*="chart_container"]:hover h3 { color: var(--hv-text-1) !important; }
+
+/* Chart.js canvas grid lines and ticks */
+[class*="chart_container"] canvas { filter: brightness(0.9) hue-rotate(220deg) !important; }
+
+/* ── Console: fix cyan focus to purple ── */
+input[class*="command_input"] {
+    background: var(--hv-bg-elevated) !important;
+    color: var(--hv-text-1) !important;
+    font-family: var(--hv-mono) !important;
+    border-color: transparent !important;
+    caret-color: var(--hv-accent) !important;
+}
+input[class*="command_input"]:focus,
+input[class*="command_input"]:active {
+    border-color: var(--hv-accent) !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Override cyan-500 focus border from source */
+.focus\:border-cyan-500:focus { border-color: var(--hv-accent) !important; }
+.active\:border-cyan-500:active { border-color: var(--hv-accent) !important; }
+.border-cyan-500 { border-color: var(--hv-accent) !important; }
+
+/* Console container: bg-black */
+[class*="terminal"] > [class*="container"],
+div.bg-black { background: var(--hv-bg-deep) !important; }
+
+/* Console tabs overflow container */
+[class*="overflows_container"] {
+    background: var(--hv-bg-elevated) !important;
+    border-radius: 8px 8px 0 0 !important;
+    border-bottom: 1px solid var(--hv-border-soft) !important;
+}
+
+/* ── File rows: .file_row bg-neutral-700 ── */
+[class*="file_row"] {
+    background: var(--hv-bg-surface) !important;
+    border-radius: 8px !important;
+    margin-bottom: 2px !important;
+    transition: all 0.13s !important;
+}
+[class*="file_row"]:hover {
+    background: var(--hv-bg-elevated) !important;
+}
+
+/* File row details text: .details text-neutral-300 */
+[class*="file_row"] [class*="details"],
+[class*="file_row"] a[class*="details"] {
+    color: var(--hv-text-2) !important;
+    text-decoration: none !important;
+}
+[class*="file_row"]:hover [class*="details"] { color: var(--hv-text-1) !important; }
+
+/* File icons */
+[class*="file_row"] .text-neutral-400 { color: var(--hv-text-3) !important; }
+
+/* File manager action buttons: .manager_actions */
+[class*="manager_actions"] button {
+    border-radius: 8px !important;
+    font-family: var(--hv-sans) !important;
+    font-weight: 600 !important;
+}
+
+/* ── Activity log rows ── */
+[class*="activity"] div[class*="bg-neutral"],
+[class*="ActivityLog"] div {
+    background: transparent !important;
+}
+
+/* Activity row borders */
+[class*="border-neutral-700"] { border-color: var(--hv-border-soft) !important; }
+
+/* Activity avatar circles */
+[class*="activity"] [class*="rounded-full"],
+[class*="ActivityLog"] [class*="rounded-full"] {
+    border: 1px solid var(--hv-border-soft) !important;
+}
+
+/* Activity text */
+[class*="activity"] p, [class*="ActivityLog"] p { color: var(--hv-text-2) !important; }
+[class*="activity"] span, [class*="ActivityLog"] span { color: var(--hv-text-3) !important; }
+[class*="activity"] strong, [class*="ActivityLog"] strong { color: var(--hv-text-1) !important; }
+
+/* ── Spinner ── */
+[class*="Spinner"], [class*="spinner"] {
+    border-color: var(--hv-border-soft) !important;
+    border-top-color: var(--hv-accent) !important;
+}
+
+/* ── Cyan overrides (Pterodactyl uses cyan for focus states) ── */
+.text-cyan-400 { color: var(--hv-purple) !important; }
+.text-cyan-500 { color: var(--hv-accent) !important; }
+.bg-cyan-400 { background: var(--hv-accent) !important; }
+.ring-cyan-400 { --tw-ring-color: var(--hv-accent-glow) !important; }
+
+/* Yellow network icon stays yellow — it's intentional */
+.text-yellow-400 { color: var(--hv-yellow) !important; }
+
+/* ── Upload/Download icons in network chart ── */
+.text-yellow-400 svg, .text-cyan-400 svg { width: 1rem !important; height: 1rem !important; }
+
+/* ── Checkbox styling ── */
+input[type="checkbox"] {
+    accent-color: var(--hv-accent) !important;
+    border-radius: 4px !important;
+}
+
+/* ── Breadcrumb path in files ── */
+[class*="breadcrumb"], nav[aria-label="breadcrumb"] {
+    color: var(--hv-text-2) !important;
+    font-family: var(--hv-mono) !important;
+    font-size: 0.8rem !important;
+}
+[class*="breadcrumb"] a, nav[aria-label="breadcrumb"] a {
+    color: var(--hv-purple) !important;
+    text-decoration: none !important;
+}
+
+/* ── Alert/warning boxes ── */
+[class*="Alert"], [role="alert"] {
+    border-radius: 8px !important;
+    border-left: 3px solid var(--hv-yellow) !important;
+    background: rgba(251,191,36,0.08) !important;
+    color: var(--hv-text-1) !important;
+}
+
+/* ── Tooltip ── */
+[class*="tooltip"], [class*="Tooltip"] {
+    background: var(--hv-bg-elevated) !important;
+    border: 1px solid var(--hv-border) !important;
+    border-radius: 6px !important;
+    color: var(--hv-text-1) !important;
+    font-size: 0.72rem !important;
+}
