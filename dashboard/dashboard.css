@@ -1,6 +1,6 @@
 /* =========================================
-   HyperVeil — Dashboard CSS
-   Based on real Pterodactyl v1.12.2 source
+   HyperVeil — Dashboard CSS v2
+   Built from real Pterodactyl v1.12.2 source
    ========================================= */
 
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
@@ -16,167 +16,220 @@
   --hv-accent-glow: rgba(124,92,252,0.20);
   --hv-accent-soft: rgba(124,92,252,0.10);
   --hv-purple:      #a78bfa;
-  --hv-cyan:        #67e8f9;
   --hv-text-1:      #eaedf5;
   --hv-text-2:      #8b8fa8;
   --hv-text-3:      #454863;
-  --hv-border:      rgba(124,92,252,0.14);
-  --hv-border-soft: rgba(255,255,255,0.055);
+  --hv-border:      rgba(124,92,252,0.18);
+  --hv-border-soft: rgba(255,255,255,0.06);
   --hv-green: #34d399; --hv-yellow: #fbbf24; --hv-red: #f87171;
   --hv-mono: 'JetBrains Mono', monospace;
   --hv-sans: 'Space Grotesk', sans-serif;
 }
 
-/* ── Body ── */
+/* ── Base ── */
+*, *::before, *::after { font-family: var(--hv-sans) !important; }
 body { background: var(--hv-bg-deep) !important; color: var(--hv-text-1) !important; }
+body.bg-neutral-800 { background: var(--hv-bg-deep) !important; }
 
-/* ── Top nav: div.w-full.bg-neutral-900.shadow-md ── */
-div.w-full.bg-neutral-900.shadow-md {
-    background: var(--hv-bg-base) !important;
-    border-bottom: 1px solid var(--hv-border) !important;
-    box-shadow: none !important;
-}
-
-/* Panel name link: a.text-2xl.font-header */
-a.text-2xl.font-header {
-    color: var(--hv-purple) !important;
-    font-family: var(--hv-sans) !important;
-    font-weight: 700 !important;
-    letter-spacing: 0.02em !important;
-}
-a.text-2xl.font-header:hover { color: var(--hv-text-1) !important; }
-
-/* RightNavigation links — styled-components generates NavigationBar__RightNavigation */
-[class*="NavigationBar__RightNavigation"] > a,
-[class*="NavigationBar__RightNavigation"] > button,
-[class*="NavigationBar__RightNavigation"] > .navigation-link {
-    color: var(--hv-text-2) !important;
-    transition: all 0.13s !important;
-}
-[class*="NavigationBar__RightNavigation"] > a:hover,
-[class*="NavigationBar__RightNavigation"] > button:hover,
-[class*="NavigationBar__RightNavigation"] > .navigation-link:hover {
-    background: var(--hv-bg-hover) !important;
-    color: var(--hv-text-1) !important;
-}
-[class*="NavigationBar__RightNavigation"] > a.active,
-[class*="NavigationBar__RightNavigation"] > .navigation-link.active {
-    color: var(--hv-purple) !important;
-    box-shadow: inset 0 -2px var(--hv-accent) !important;
-}
+/* ── Hide native top nav completely ── */
+div.w-full.bg-neutral-900.shadow-md { display: none !important; }
 
 /* ── SubNavigation: bg-neutral-700 shadow ── */
 [class*="SubNavigation"] {
     background: var(--hv-bg-base) !important;
     border-bottom: 1px solid var(--hv-border) !important;
     box-shadow: none !important;
-}
-[class*="SubNavigation"] > div > a,
-[class*="SubNavigation"] > div > div {
-    color: var(--hv-text-2) !important;
-    font-family: var(--hv-sans) !important;
-    font-size: 0.8rem !important;
-    font-weight: 500 !important;
-    transition: all 0.13s !important;
-}
-[class*="SubNavigation"] > div > a:hover { color: var(--hv-text-1) !important; }
-[class*="SubNavigation"] > div > a.active {
-    color: var(--hv-purple) !important;
-    box-shadow: inset 0 -2px var(--hv-accent) !important;
+    display: none !important; /* we use sidebar instead */
 }
 
-/* ── Page containers ── */
-[class*="ContentContainer"] { background: var(--hv-bg-deep) !important; }
+/* ── Page backgrounds ── */
+[class*="ContentContainer"],
+[class*="ServerContentBlock"],
+[class*="PageContentBlock"] { background: var(--hv-bg-deep) !important; }
 [class*="Fade__Container"] { background: transparent !important; }
 section { background: transparent !important; }
 
-/* ── GreyRowBox (server list rows): bg-neutral-700, border-transparent ── */
+/* ── Server name + description area ── */
+h1.font-header { color: var(--hv-text-1) !important; font-family: var(--hv-sans) !important; font-weight: 700 !important; }
+p.text-sm.line-clamp-2 { color: var(--hv-text-2) !important; }
+
+/* ── Power buttons ── */
+/* Start: .button.primary → bg-blue-600 */
+button[class*="button"][class*="primary"] {
+    background: rgba(52,211,153,0.15) !important;
+    color: var(--hv-green) !important;
+    border: 1px solid rgba(52,211,153,0.3) !important;
+    border-radius: 8px !important;
+    font-family: var(--hv-sans) !important;
+    font-weight: 600 !important;
+    transition: all 0.13s !important;
+}
+button[class*="button"][class*="primary"]:hover:not(:disabled) {
+    background: rgba(52,211,153,0.28) !important;
+}
+button[class*="button"][class*="primary"]:disabled {
+    background: rgba(52,211,153,0.07) !important;
+    color: rgba(52,211,153,0.35) !important;
+    border-color: rgba(52,211,153,0.12) !important;
+}
+
+/* Restart: .button.text → bg-gray-500 */
+button[class*="button"][class*="text"] {
+    background: var(--hv-bg-elevated) !important;
+    color: var(--hv-text-2) !important;
+    border: 1px solid var(--hv-border-soft) !important;
+    border-radius: 8px !important;
+    font-family: var(--hv-sans) !important;
+    font-weight: 600 !important;
+    transition: all 0.13s !important;
+}
+button[class*="button"][class*="text"]:hover:not(:disabled) {
+    background: var(--hv-bg-hover) !important;
+    color: var(--hv-text-1) !important;
+}
+
+/* Stop/Kill: .button.danger → bg-red-600 */
+button[class*="button"][class*="danger"] {
+    background: rgba(248,113,113,0.12) !important;
+    color: var(--hv-red) !important;
+    border: 1px solid rgba(248,113,113,0.28) !important;
+    border-radius: 8px !important;
+    font-family: var(--hv-sans) !important;
+    font-weight: 600 !important;
+    transition: all 0.13s !important;
+}
+button[class*="button"][class*="danger"]:hover:not(:disabled) {
+    background: rgba(248,113,113,0.25) !important;
+}
+
+/* ── StatBlock: bg-gray-600 ── */
+div[class*="stat_block"] {
+    background: var(--hv-bg-surface) !important;
+    border: 1px solid var(--hv-border-soft) !important;
+    border-radius: 10px !important;
+    box-shadow: none !important;
+    transition: border-color 0.13s !important;
+}
+div[class*="stat_block"]:hover { border-color: var(--hv-border) !important; }
+
+/* Stat block icon container: bg-gray-700 */
+div[class*="stat_block"] div[class*="icon"] {
+    background: var(--hv-accent-soft) !important;
+    border: 1px solid var(--hv-border) !important;
+    border-radius: 8px !important;
+}
+div[class*="stat_block"] div[class*="icon"] svg { color: var(--hv-purple) !important; }
+
+/* Stat block status bar */
+div[class*="stat_block"] div[class*="status_bar"] { background: var(--hv-accent-dim) !important; opacity: 0.5; }
+div[class*="stat_block"] div.bg-red-500[class*="status_bar"] { background: var(--hv-red) !important; }
+div[class*="stat_block"] div.bg-yellow-500[class*="status_bar"] { background: var(--hv-yellow) !important; }
+
+/* Stat block text */
+div[class*="stat_block"] p { color: var(--hv-text-2) !important; font-size: 0.72rem !important; }
+div[class*="stat_block"] div[class*="font-semibold"] { color: var(--hv-text-1) !important; font-weight: 700 !important; }
+div[class*="stat_block"] span.text-gray-400 { color: var(--hv-text-3) !important; }
+div[class*="stat_block"] span.text-gray-300 { color: var(--hv-text-3) !important; }
+
+/* Alarm state icon overrides */
+div[class*="stat_block"] div.bg-red-500[class*="icon"] { background: rgba(248,113,113,0.15) !important; border-color: rgba(248,113,113,0.3) !important; }
+div[class*="stat_block"] div.bg-red-500[class*="icon"] svg { color: var(--hv-red) !important; }
+div[class*="stat_block"] div.bg-yellow-500[class*="icon"] { background: rgba(251,191,36,0.12) !important; border-color: rgba(251,191,36,0.28) !important; }
+div[class*="stat_block"] div.bg-yellow-500[class*="icon"] svg { color: var(--hv-yellow) !important; }
+
+/* ── Console terminal container: .terminal .container bg-black ── */
+div[class*="terminal"] > div[class*="container"] {
+    background: var(--hv-bg-deep) !important;
+    border: 1px solid var(--hv-border) !important;
+    border-radius: 10px 10px 0 0 !important;
+    min-height: 20rem !important;
+}
+
+/* Command input: .command_input bg-gray-900 */
+input[class*="command_input"] {
+    background: var(--hv-bg-elevated) !important;
+    color: var(--hv-text-1) !important;
+    font-family: var(--hv-mono) !important;
+    font-size: 0.8rem !important;
+    border-color: transparent !important;
+    border-radius: 0 0 10px 10px !important;
+    transition: border-color 0.13s !important;
+}
+input[class*="command_input"]:focus { border-color: var(--hv-accent) !important; outline: none !important; }
+
+/* Command icon >> */
+div[class*="command_icon"] { color: var(--hv-accent) !important; }
+
+/* Console tabs container */
+div[class*="overflows_container"] {
+    background: var(--hv-bg-elevated) !important;
+    border: 1px solid var(--hv-border-soft) !important;
+    border-radius: 8px 8px 0 0 !important;
+    border-bottom: none !important;
+}
+
+/* xterm */
+.xterm-viewport { background: var(--hv-bg-deep) !important; }
+.xterm-screen { background: var(--hv-bg-deep) !important; }
+
+/* ── TitledGreyBox: rounded shadow-md bg-neutral-700 ── */
+div[css*="bg-neutral-700"],
+[class*="TitledGreyBox"],
+.bg-neutral-700.rounded {
+    background: var(--hv-bg-surface) !important;
+    border: 1px solid var(--hv-border-soft) !important;
+    border-radius: 10px !important;
+}
+/* TitledGreyBox header: bg-neutral-900 rounded-t p-3 border-b border-black */
+.bg-neutral-900.rounded-t {
+    background: var(--hv-bg-elevated) !important;
+    border-bottom: 1px solid var(--hv-border-soft) !important;
+    border-radius: 10px 10px 0 0 !important;
+}
+
+/* ── GreyRowBox (server list rows) ── */
 [class*="GreyRowBox"],
 [class*="StatusIndicatorBox"] {
     background: var(--hv-bg-surface) !important;
-    border-color: var(--hv-border-soft) !important;
+    border: 1px solid var(--hv-border-soft) !important;
     border-radius: 10px !important;
-    color: var(--hv-text-1) !important;
-    transition: border-color 0.13s, background 0.13s !important;
+    transition: all 0.13s !important;
 }
 [class*="GreyRowBox"]:hover,
 [class*="StatusIndicatorBox"]:hover {
     background: var(--hv-bg-elevated) !important;
     border-color: var(--hv-border) !important;
 }
-
-/* Server icon circle */
-[class*="GreyRowBox"] .icon,
-[class*="StatusIndicatorBox"] .icon {
-    background: var(--hv-bg-elevated) !important;
-    border: 1px solid var(--hv-border-soft) !important;
+[class*="GreyRowBox"] .icon {
+    background: var(--hv-accent-soft) !important;
+    border: 1px solid var(--hv-border) !important;
 }
 
-/* Server name text */
-[class*="StatusIndicatorBox"] p.text-lg { color: var(--hv-text-1) !important; font-weight: 600 !important; }
-[class*="StatusIndicatorBox"] p.text-sm { color: var(--hv-text-2) !important; }
-
-/* Status bar on server rows */
-[class*="StatusIndicatorBox"] .status-bar { border-radius: 0 8px 8px 0 !important; }
-
-/* ── ContentBox: bg-neutral-700 rounded shadow ── */
+/* ── ContentBox ── */
 [class*="ContentBox"] {
     background: var(--hv-bg-surface) !important;
     border: 1px solid var(--hv-border-soft) !important;
     border-radius: 12px !important;
-    color: var(--hv-text-1) !important;
 }
-[class*="ContentBox"] h2 {
-    color: var(--hv-text-1) !important;
-    font-weight: 600 !important;
-    border-bottom: 1px solid var(--hv-border-soft) !important;
-    padding-bottom: 0.65rem !important;
-}
+[class*="ContentBox"] h2 { color: var(--hv-text-1) !important; font-weight: 600 !important; border-bottom: 1px solid var(--hv-border-soft) !important; }
 
-/* ── Console stat blocks: .stat_block ── */
-.stat_block {
+/* ── StatGraphs chart containers ── */
+[class*="chart_container"] {
     background: var(--hv-bg-surface) !important;
     border: 1px solid var(--hv-border-soft) !important;
+    border-bottom: 3px solid var(--hv-accent-dim) !important;
     border-radius: 10px !important;
     box-shadow: none !important;
 }
-.stat_block .icon {
-    background: var(--hv-accent-soft) !important;
-    border: 1px solid var(--hv-border) !important;
-}
-.stat_block .icon svg { color: var(--hv-purple) !important; }
-
-/* ── Terminal container: .terminal .container bg-black ── */
-.terminal > .container {
-    background: var(--hv-bg-deep) !important;
-    border: 1px solid var(--hv-border) !important;
-    border-radius: 10px 10px 0 0 !important;
-}
-
-/* Command input: .command_input bg-gray-900 ── */
-.command_input {
-    background: var(--hv-bg-elevated) !important;
-    color: var(--hv-text-1) !important;
-    font-family: var(--hv-mono) !important;
-    border-bottom-color: transparent !important;
-    border-radius: 0 0 10px 10px !important;
-}
-.command_input:focus { border-bottom-color: var(--hv-accent) !important; }
-.command_icon { color: var(--hv-accent) !important; }
-
-/* xterm terminal itself */
-.xterm-viewport { background: var(--hv-bg-deep) !important; }
-.xterm-screen canvas { background: var(--hv-bg-deep) !important; }
 
 /* ── Inputs ── */
-input:not([type='checkbox']):not([type='radio']),
+input:not([type='checkbox']):not([type='radio']):not([class*="command_input"]),
 textarea, select {
     background: var(--hv-bg-elevated) !important;
     border-color: var(--hv-border-soft) !important;
     border-radius: 8px !important;
     color: var(--hv-text-1) !important;
     font-family: var(--hv-sans) !important;
-    transition: border-color 0.13s, box-shadow 0.13s !important;
 }
 input:focus, textarea:focus, select:focus {
     border-color: var(--hv-accent) !important;
@@ -184,21 +237,20 @@ input:focus, textarea:focus, select:focus {
     outline: none !important;
 }
 label { color: var(--hv-text-2) !important; font-size: 0.78rem !important; font-weight: 500 !important; }
-p.input-help { color: var(--hv-text-3) !important; font-size: 0.72rem !important; }
+p.input-help { color: var(--hv-text-3) !important; }
 
-/* ── Buttons ── */
-button { font-family: var(--hv-sans) !important; border-radius: 8px !important; transition: all 0.13s !important; }
-
-/* Primary styled button */
-[class*="style-module"] {
-    background: var(--hv-accent) !important;
-    color: #fff !important;
-    border: none !important;
-    font-weight: 600 !important;
+/* ── Dialogs/Modals ── */
+[role="dialog"], [class*="Dialog"] {
+    background: var(--hv-bg-elevated) !important;
+    border: 1px solid var(--hv-border) !important;
+    border-radius: 12px !important;
 }
-[class*="style-module"]:hover { background: var(--hv-accent-dim) !important; }
+[class*="Overlay"], [class*="overlay"] {
+    background: rgba(0,0,0,0.7) !important;
+    backdrop-filter: blur(4px) !important;
+}
 
-/* ── Tailwind neutral class overrides (used throughout components) ── */
+/* ── Tailwind class overrides ── */
 .bg-neutral-900 { background: var(--hv-bg-base) !important; }
 .bg-neutral-800 { background: var(--hv-bg-deep) !important; }
 .bg-neutral-700 { background: var(--hv-bg-surface) !important; }
@@ -206,34 +258,46 @@ button { font-family: var(--hv-sans) !important; border-radius: 8px !important; 
 .bg-neutral-500 { background: var(--hv-bg-hover) !important; }
 .bg-black { background: var(--hv-bg-deep) !important; }
 .bg-gray-900 { background: var(--hv-bg-elevated) !important; }
+.bg-gray-700 { background: var(--hv-bg-elevated) !important; }
 .bg-gray-600 { background: var(--hv-bg-surface) !important; }
+.bg-gray-500 { background: var(--hv-bg-hover) !important; }
 
-.text-neutral-100, .text-neutral-200, .text-neutral-300 { color: var(--hv-text-1) !important; }
+.text-neutral-100,.text-neutral-200,.text-neutral-300 { color: var(--hv-text-1) !important; }
 .text-neutral-400 { color: var(--hv-text-2) !important; }
-.text-neutral-500, .text-neutral-600 { color: var(--hv-text-3) !important; }
-.text-gray-100 { color: var(--hv-text-1) !important; }
-.text-gray-900 { color: var(--hv-bg-deep) !important; }
+.text-neutral-500,.text-neutral-600 { color: var(--hv-text-3) !important; }
+.text-gray-50,.text-gray-100,.text-gray-200 { color: var(--hv-text-1) !important; }
+.text-gray-300 { color: var(--hv-text-2) !important; }
+.text-gray-400 { color: var(--hv-text-3) !important; }
+.text-blue-50 { color: #fff !important; }
 
-.border-neutral-700, .border-neutral-600, .border-neutral-800 { border-color: var(--hv-border-soft) !important; }
+.border-neutral-700,.border-neutral-600,.border-neutral-800 { border-color: var(--hv-border-soft) !important; }
+.border-black { border-color: var(--hv-border-soft) !important; }
 .hover\:border-neutral-500:hover { border-color: var(--hv-border) !important; }
-.hover\:bg-neutral-700:hover { background: var(--hv-bg-hover) !important; }
-.hover\:bg-neutral-600:hover { background: var(--hv-bg-elevated) !important; }
-.hover\:text-neutral-100:hover, .hover\:text-neutral-300:hover { color: var(--hv-text-1) !important; }
 
-.shadow, .shadow-md, .shadow-lg { box-shadow: 0 4px 24px rgba(0,0,0,0.4) !important; }
+/* Blue button overrides */
+.bg-blue-600 { background: var(--hv-accent) !important; }
+.bg-blue-500 { background: var(--hv-accent-dim) !important; }
+.hover\:bg-blue-500:hover { background: var(--hv-accent-dim) !important; }
+.focus\:ring-blue-400 { --tw-ring-color: var(--hv-accent-glow) !important; }
 
-/* Status badges */
-.bg-red-500 { background: rgba(248,113,113,0.15) !important; }
-.bg-green-500 { background: rgba(52,211,153,0.15) !important; }
-.bg-yellow-500 { background: rgba(251,191,36,0.15) !important; }
-span.bg-red-500, span.bg-neutral-500 { border-radius: 5px !important; padding: 2px 8px !important; }
+/* Gray button overrides */
+.bg-gray-500 { background: var(--hv-bg-elevated) !important; }
+.hover\:bg-gray-400:hover { background: var(--hv-bg-hover) !important; }
 
-/* ── Hide Pterodactyl/Blueprint branding ── */
+/* Red button stays close to original but softer */
+.bg-red-600 { background: rgba(248,113,113,0.18) !important; color: var(--hv-red) !important; }
+.hover\:bg-red-500:hover { background: rgba(248,113,113,0.28) !important; }
+
+.shadow,.shadow-md,.shadow-lg { box-shadow: 0 4px 24px rgba(0,0,0,0.4) !important; }
+
+/* ── Hide ALL Pterodactyl/Blueprint branding ── */
 [class*="PageContentBlock__StyledP"],
 [class*="PageContentBlock__StyledA"],
 a[href*="pterodactyl.io"],
 a[href*="blueprint.zip"],
-span.mx-2 { display: none !important; }
+span.mx-2,
+p[class*="dcHyfd"],
+a[class*="eOGAqX"] { display: none !important; }
 
 /* ── Scrollbar ── */
 ::-webkit-scrollbar { width: 5px; height: 5px; }
@@ -243,5 +307,5 @@ span.mx-2 { display: none !important; }
 
 /* ── Mobile ── */
 @media (max-width: 768px) {
-    [class*="SubNavigation"] > div > a { font-size: 0.72rem !important; padding: 0.4rem 0.5rem !important; }
+    [class*="SubNavigation"] > div > a { font-size: 0.72rem !important; }
 }
