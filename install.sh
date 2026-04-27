@@ -45,12 +45,7 @@ if [ -f "$CONSOLE" ]; then
     success "Console prelude patched"
 fi
 
-# 2. NavigationBar: cyan.600 → violet.500 for active underline
-if [ -f "$NAVFILE" ]; then
-    cp "$NAVFILE" "${NAVFILE}.hv-bak" 2>/dev/null || true
-    sed -i 's/colors\.cyan\.600/#7c5cfc/g' "$NAVFILE"
-    success "Nav accent patched"
-fi
+# Nav patch removed - leave cyan as-is, override via CSS instead
 
 # 3. PageContentBlock: hide pterodactyl copyright footer
 if [ -f "$PAGEFILE" ]; then

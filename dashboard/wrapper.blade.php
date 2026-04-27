@@ -48,6 +48,10 @@ body { padding-left:210px !important; }
 /* Hide native nav */
 div.w-full.bg-neutral-900.shadow-md { display:none !important; }
 
+/* Hide SubNavigation - uses w-full bg-neutral-700 shadow */
+div.w-full.bg-neutral-700.shadow { display:none !important; }
+div.w-full.bg-neutral-700.shadow.overflow-x-auto { display:none !important; }
+
 /* All colour overrides */
 .bg-neutral-900{background:var(--hv-base)!important}.bg-neutral-800{background:var(--hv-deep)!important}
 .bg-neutral-700{background:var(--hv-surface)!important}.bg-neutral-600{background:var(--hv-elevated)!important}
@@ -245,6 +249,8 @@ a[href*="pterodactyl.io"],a[href*="blueprint.zip"],span.mx-2{display:none!import
     function hideNav(){
         var nav=document.querySelector('div.w-full.bg-neutral-900');
         if(nav)nav.style.setProperty('display','none','important');
+        var subnav=document.querySelector('div.w-full.bg-neutral-700.shadow');
+        if(subnav)subnav.style.setProperty('display','none','important');
     }
 
     document.querySelectorAll('.hv-link').forEach(function(a){
