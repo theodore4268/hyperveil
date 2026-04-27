@@ -5,7 +5,6 @@
 
 PANEL_DIR="/var/www/pterodactyl"
 BLUEPRINT_URL="https://github.com/BlueprintFramework/framework/releases/download/beta-2026-01/release.zip"
-
 PURPLE='\033[0;35m'; GREEN='\033[0;32m'; RED='\033[0;31m'; NC='\033[0m'
 info()    { echo -e "  ${PURPLE}[info]${NC}  $1"; }
 success() { echo -e "  ${GREEN}[ok]${NC}    $1"; }
@@ -32,53 +31,49 @@ else
     success "Blueprint installed"
 fi
 
-# ── Patch source files ─────────────────────────────────────────
+# ── Patch Pterodactyl source files ─────────────────────────────
 info "Patching source files..."
 
 CONSOLE="$PANEL_DIR/resources/scripts/components/server/console/Console.tsx"
 NAVFILE="$PANEL_DIR/resources/scripts/components/NavigationBar.tsx"
-PAGECONTENT="$PANEL_DIR/resources/scripts/components/elements/PageContentBlock.tsx"
+PAGEFILE="$PANEL_DIR/resources/scripts/components/elements/PageContentBlock.tsx"
 
-# 1. Terminal prelude: container@pterodactyl~ → hyperveil@container
+# 1. Console: change yellow (33m) to purple (35m) and rename container
 if [ -f "$CONSOLE" ]; then
-    # Backup original
-    cp "$CONSOLE" "${CONSOLE}.hv-backup" 2>/dev/null || true
-    # Replace the yellow ANSI colour code (33m) with purple (35m) and the text
-    python3 -c "
-import re, sys
-f = open('$CONSOLE', 'r')
+    cp "$CONSOLE" "${CONSOLE}.hv-bak" 2>/dev/null || true
+    sed -i "s/\\\\u001b\[1m\\\\u001b\[33mcontainer@pterodactyl~ \\\\u001b\[0m/\\\\u001b[1m\\\\u001b[35mhyperveil@container\\\\u001b[0m /g" "$CONSOLE"
+    success "Console prelude patched"
+fi
+
+# 2. NavigationBar: cyan.600 → violet.500 for active underline
+if [ -f "$NAVFILE" ]; then
+    cp "$NAVFILE" "${NAVFILE}.hv-bak" 2>/dev/null || true
+    sed -i 's/colors\.cyan\.600/colors.violet.500/g' "$NAVFILE"
+    success "Nav accent patched"
+fi
+
+# 3. PageContentBlock: hide pterodactyl copyright footer
+if [ -f "$PAGEFILE" ]; then
+    cp "$PAGEFILE" "${PAGEFILE}.hv-bak" 2>/dev/null || true
+    # Replace the footer ContentContainer with an empty fragment
+    python3 << 'PYEOF'
+import re
+f = open('/var/www/pterodactyl/resources/scripts/components/elements/PageContentBlock.tsx', 'r')
 content = f.read()
 f.close()
-content = content.replace(
-    r'\u001b[1m\u001b[33mcontainer@pterodactyl~ \u001b[0m',
-    r'\u001b[1m\u001b[35mhyperveil@container\u001b[0m '
+# Remove the second ContentContainer that has the pterodactyl copyright
+content = re.sub(
+    r'<ContentContainer css=\{tw`mb-4`\}>.*?</ContentContainer>',
+    '',
+    content,
+    flags=re.DOTALL
 )
-# Also replace as escaped string in JS source
-content = content.replace(
-    \"'\\\\u001b[1m\\\\u001b[33mcontainer@pterodactyl~ \\\\u001b[0m'\",
-    \"'\\\\u001b[1m\\\\u001b[35mhyperveil@container\\\\u001b[0m '\"
-)
-f = open('$CONSOLE', 'w')
+f = open('/var/www/pterodactyl/resources/scripts/components/elements/PageContentBlock.tsx', 'w')
 f.write(content)
 f.close()
-print('patched')
-" 2>/dev/null && success "Console prelude patched" || info "Console patch skipped (Python not available)"
-fi
-
-# 2. Remove Pterodactyl copyright footer
-if [ -f "$PAGECONTENT" ]; then
-    cp "$PAGECONTENT" "${PAGECONTENT}.hv-backup" 2>/dev/null || true
-    # Comment out the footer <p> tag that contains the copyright
-    sed -i 's|<p css={tw`mt-2 text-center text-sm text-neutral-500`}|<p css={tw`hidden`}|g' "$PAGECONTENT" 2>/dev/null || true
-    success "Footer patched"
-fi
-
-# 3. Nav: change cyan active underline to purple
-if [ -f "$NAVFILE" ]; then
-    cp "$NAVFILE" "${NAVFILE}.hv-backup" 2>/dev/null || true
-    sed -i 's/colors.cyan.600/colors.violet.500/g' "$NAVFILE" 2>/dev/null || true
-    sed -i "s/theme\`colors.cyan.600\`/theme\`colors.violet.500\`/g" "$NAVFILE" 2>/dev/null || true
-    success "Nav colour patched"
+print('footer removed')
+PYEOF
+    success "Copyright footer removed"
 fi
 
 # ── Copy Blueprint extension files ─────────────────────────────
@@ -105,4 +100,3 @@ blueprint -build || error "Build failed"
 echo -e "\n  ${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo -e "  ${GREEN}  HyperVeil is live! 🎉${NC}"
 echo -e "  ${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}\n"
-echo -e "  Announcements: ${PURPLE}https://your-panel/admin/extensions/hyperveil${NC}\n"
